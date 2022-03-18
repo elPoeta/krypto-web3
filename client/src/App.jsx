@@ -1,8 +1,15 @@
+import { Navbar, Welcome, Services, Transactions, Footer } from './components';
 
 const App = () => {
   return (
-    <div className="">
-      Krypto-web3
+    <div className="min-h-screen">
+      <div className='gradient-bg-welcome'>
+        <Navbar />
+        <Welcome />
+      </div>
+      <Services />
+      <Transactions />
+      <Footer />
     </div>
   );
 }
