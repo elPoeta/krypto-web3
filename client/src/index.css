@@ -17,6 +17,23 @@ body {
   background-image: linear-gradient(to right, #000966, #190d6b, #291170, #361674, #411b79, #4d1c7a, #581d7b, #621f7c, #6e1d79, #791b76, #831a73, #8c1a6f);
 }
 
+.blue-glassmorphism {
+  background: rgb(39, 51, 89, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.white-glassmorphism {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
