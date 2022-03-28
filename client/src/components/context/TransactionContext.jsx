@@ -22,12 +22,13 @@ export const TransactionsProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
   const [transactionCount, setTransactionCount] = useState(localStorage.getItem("transactionCount"));
 
-  const isWalletConnectd = async () => {
+  const isWalletConnected = async () => {
     try {
       if (!ethereum) return alert('Please install Metamask');
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
+        getAllTransactions();
       } else {
         console.log('No accounts fond')
       }
@@ -89,12 +90,39 @@ export const TransactionsProvider = ({ children }) => {
     }
   }
 
+  const getAllTransactions = async () => {
+    try {
+      if (ethereum) {
+        const transactionsContract = getEthereumContract();
+
+        const availableTransactions = await transactionsContract.getAllTransactions();
+
+        const structuredTransactions = availableTransactions.map((transaction) => ({
+          addressTo: transaction.receiver,
+          addressFrom: transaction.sender,
+          timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
+          message: transaction.message,
+          keyword: transaction.keyword,
+          amount: parseInt(transaction.amount._hex) / (10 ** 18)
+        }));
+
+        console.log(structuredTransactions);
+
+        setTransactions(structuredTransactions);
+      } else {
+        console.log("Ethereum is not present");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    isWalletConnectd();
+    isWalletConnected();
   }, []);
 
   return (
-    <TransactionContext.Provider value={{ connectWallet, handleChange, currentAccount, formData, sendTransaction, isLoading }}>
+    <TransactionContext.Provider value={{ connectWallet, handleChange, currentAccount, formData, sendTransaction, transactions, transactionCount, isLoading }}>
       {children}
     </TransactionContext.Provider>
   )
