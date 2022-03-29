@@ -9,7 +9,7 @@ const App = () => {
       </div>
       <Services />
       <Transactions />
-      <Footer />
+      <Footer items={["Market", "Exchange", "Wallets"]} />
     </div>
   );
 }
